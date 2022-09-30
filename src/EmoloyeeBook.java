@@ -1,74 +1,110 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public class EmoloyeeBook {
-    //private static Employee[] employee = new Employee[10];
-    /*
-    public static void allEmployee() {
-        for (int i = 0; i < employee.length; i++) {
-            System.out.println(employee[i]);
+
+    private static final Map<String, Employee> employees = new HashMap<>();
+
+
+    public void addEmployee(Employee employee) {
+        employees.put(employee.getName(), employee);
+    }
+    public void addEmployee(String name,  double salary, int department) {
+        addEmployee(new  Employee(name,  department,salary));
+    }
+    public void  changeSalary(Employee employee, int newSalary) {
+        String key = employee.getName();
+        if (employees.containsKey(key)) {
+            employees.get(key).setSalary(newSalary);
         }
     }
-     public static int salaryAll() {
-        int summ = 0;
-        for (int i = 0; i < employee.length; i++) {
-            summ = summ + Employee.getSalary();
-        }
+   public void  changeDepartment(Employee employee, int newDepartment) {
+       String key = employee.getName();
+       if (employees.containsKey(key)) {
+           employees.get(key).setSalary(newDepartment);
+       }
+    }
+    public static void allEmployee() {
+            System.out.println(employees.toString());
+
+    }
+     public static double salaryAll() {
+        double summ = 0;
+         for (Employee employee:  employees.values()) {
+             summ = summ + (employees.get(employee.getName()).getSalary());
+         }
+
        System.out.println("Сумма всех зарплат в месяц : " +  summ);
         return summ;
     }
 
      public static void minimum() {
-        int  min = 100000000;
-        for (int i = 0; i < employee.length; i++) {
-            if (min > employee[i].getSalary()) {
-                min = employee[i];
+        double  min = 100000000;
+         for (Employee employee:  employees.values()) {
+            if (min >  (employees.get(employee.getName())).getSalary()) {
+                min =  (employees.get(employee.getName())).getSalary();
             }
         } System.out.println("Минимальная зарплата в месяце : " +  min);
     }
      public void maximum() {
-        Employee  max = null;
-        for (int i = 0; i < employee.length; i++) {
-            if (max < employee[i].getSalary()) {
-                max = employee[i];
+        double  max = 0;
+         for (Employee employee:  employees.values()) {
+            if (max < (employees.get(employee.getName())).getSalary()) {
+                max =  (employees.get(employee.getName())).getSalary();
             }
         } System.out.println("Максимальная зарплата в месяце : " +  max);
     }
     public  void averageSalary() {
-        int average = 0;
-        average = salaryAll() / Employee.salary.length;
-        System.out.println("Средняя зарплата в месяце : " +  average);
+        int count = employees.values().size();
+        if (count != 0) {
+            System.out.println("Средняя зарплата в месяце : " + salaryAll()/count);
+        }
     }
     public  void allStaff() {
+        Set<String> setKey = employees.keySet();
         System.out.println("Список всех сотрудников : ");
-        for (int i = 0; i < employee.length; i++) {
-            System.out.println((i+1) +" :  " + employee[i].getNames() );
+        for (String key : setKey) {
+            System.out.println(key );
         }
     }
     // Повышенная сложность
 
     public  void indexing(int x) {
-        for (int i = 0; i < Employee.salary.length; i++) {
-            salary[i] = salary[i] + salary[i]*x/100;
+        double salary1 =0;
+        for (Employee employee:  employees.values()) {
+            salary1 =(employees.get(employee.getName())).getSalary()*x/100;
+            (employees.get(employee.getName())).setSalary(salary1);
         }
     }
     public  void departmentMin(int x) {
-        double min =double.MAX_VALUE;
-        for (int i = 0; i < department.length; i++) {
-            if (x == department[i]) {
-                if (min > salary[i]) {
-                    min = salary[i];
-                }
+        double min = Double.MAX_VALUE;
+        String key = null;
+        for (Map.Entry<String , Employee> entry: employees.entrySet()) {
+            Employee employee = entry.getValue();
+            if (employee.getSalary() < min) {
+                min = employee.getSalary();
             }
-        }  System.out.println("В отделе : " + x +  "Минимальная зарплата в месяце : " +  min);
+        }
+        if (key != null) {
+            System.out.println("В отделе : " + x +  "Минимальная " +
+                    "зарплата в месяце : " +  employees.get(key));
+        } else System.out.println("нет данных");
     }
     public static void departmentMax(int x) {
-        double max = integer.MIN_VALUE;
-        for (int i = 0; i < department.length; i++) {
-            if (x == department[i]) {
-                if (max < salary[i]) {
-                    max = salary[i];
-                }
+        double max = Integer.MIN_VALUE;
+        String key = null;
+        for (Map.Entry<String , Employee> entry: employees.entrySet()) {
+            Employee employee = entry.getValue();
+            if (employee.getSalary() > max) {
+                max = employee.getSalary();
             }
-        }  System.out.println("В отделе : " + x +  "Максмальная зарплата в месяце : " +  max);
-    }
+        }
+        if (key != null) {
+            System.out.println("В отделе : " + x +  "Максимальная " +
+                    "зарплата в месяце : " +  employees.get(key));
+        } else System.out.println("нет данных");
+    }/*
     public  void departmentSumm(int x) {
         int summ = 0;
         for (int i = 0; i < department.length; i++) {
